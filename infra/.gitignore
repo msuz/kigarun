@@ -1,0 +1,29 @@
+# Terraform directory structure
+.terraform/
+
+# Include Terraform lock file for dependency versions
+# IMPORTANT: Do not exclude the .terraform.lock.hcl file as it ensures consistent dependency versions across all environments
+!.terraform.lock.hcl
+
+# Local Terraform state files
+*.tfstate
+*.tfstate.*.backup
+*.tfstate.backup
+
+# Exclude sensitive variable definition files
+*.tfvars
+*.tfvars.json
+
+# Exclude override files that are usually used locally
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Exclude Terraform CLI configuration files
+.terraformrc
+terraform.rc
+
+# Exclude environment variable files that may contain secrets
+.env
+.env.*

@@ -14,7 +14,18 @@ flowchart LR
 
 ## setup
 
-TBD
+```
+% xcode-select --install       
+```
+
+```
+% cd ~/git/
+% git clone git@github.com:msuz/kigarun.git
+```
+
+* https://code.visualstudio.com/download
+
+* https://marketplace.visualstudio.com/items?itemName=corschenzi.mermaid-graphical-editor
 
 ## usage
 
