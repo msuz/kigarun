@@ -12,7 +12,7 @@ resource "aws_lambda_function" "get_message" {
 # Lambda関数のコードを含むZIPファイルを作成
 resource "null_resource" "lambda_zip" {
   triggers = {
-    build_number = timestamp()
+    file_checksum = filemd5("${path.module}/../api/get_message.py")
   }
 
   provisioner "local-exec" {
