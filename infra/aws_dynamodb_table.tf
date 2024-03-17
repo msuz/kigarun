@@ -24,11 +24,6 @@ resource "aws_dynamodb_table" "game_scores" {
     type = "N"
   }
 
-  ttl {
-    attribute_name = "TimeToExist"
-    enabled        = false
-  }
-
   global_secondary_index {
     name               = "GameTitleIndex"
     hash_key           = "GameTitle"
