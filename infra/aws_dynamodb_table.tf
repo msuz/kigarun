@@ -1,7 +1,7 @@
 provider "aws" {
   region  = "ap-northeast-1"
 }
-resource "aws_dynamodb_table" "basic-dynamodb-table" {
+resource "aws_dynamodb_table" "game-scores" {
   name           = "GameScores"
   billing_mode   = "PROVISIONED"
   read_capacity  = 3
@@ -40,7 +40,8 @@ resource "aws_dynamodb_table" "basic-dynamodb-table" {
   }
 
   tags = {
-    Name        = "dynamodb-table-GameScores"
+    Name        = "aws_dynamodb_table.game-scores"
+    Service = "kigarun"
     Environment = "production"
   }
 }
