@@ -19,12 +19,27 @@
         "GameScores"
     ]
 }
+```
 
-% terraform show
+```
+% api_id=$(aws apigateway get-rest-apis | jq -r '.items[] | select(.name=="KigarunAPI") | .id') && \
+region=$(aws configure get region) && \
+stage_name=$(aws apigateway get-stages --rest-api-id $api_id | jq -r '.item[0].stageName') && \
+KIGARUN_API="https://${api_id}.execute-api.${region}.amazonaws.com/${stage_name}" && \
+echo ${KIGARUN_API}
 
+% curl -s -X GET "${KIGARUN_API}/message" | jq .
+{
+  "status": "ok",
+  "message": "hello world"
+}
+
+```
 % terraform destroy
   Enter a value: yes
+```
 
+```
 % aws dynamodb list-tables
 {
     "TableNames": []
