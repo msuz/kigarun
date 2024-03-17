@@ -27,6 +27,10 @@ flowchart LR
 
 * https://marketplace.visualstudio.com/items?itemName=corschenzi.mermaid-graphical-editor
 
+```
+% pip install bot3
+```
+
 ## usage
 
 TBD

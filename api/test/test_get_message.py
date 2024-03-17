@@ -3,7 +3,6 @@ import sys
 import os
 import json
 
-
 # テスト対象のLambda関数があるディレクトリ（一つ上のディレクトリ）をsys.pathに追加
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 

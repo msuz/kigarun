@@ -9,10 +9,10 @@
 
 ```
 % cd /PATH/TO/KIGARUN/api/test
-% python3 -m unittest                    
-.
+% python3 -m unittest
+....
 ----------------------------------------------------------------------
-Ran 1 test in 0.000s
+Ran 4 tests in 0.000s
 
 OK
 ```
@@ -40,10 +40,27 @@ region=$(aws configure get region) && \
 stage_name=$(aws apigateway get-stages --rest-api-id $api_id | jq -r '.item[0].stageName') && \
 KIGARUN_API="https://${api_id}.execute-api.${region}.amazonaws.com/${stage_name}" && \
 echo ${KIGARUN_API}
+```
 
+```
 % curl -s -X GET "${KIGARUN_API}/message" | jq .
 {
   "status": "ok",
   "message": "hello world"
+}
+```
+
+```
+% curl -s -X POST ${KIGARUN_API}/game-scores \
+  -H "Content-Type: application/json" \
+  -d '{
+    "UserId": "user123",
+    "GameTitle": "Space Invaders",
+    "TopScore": 9999
+  }' \
+  | jq .
+
+{
+  "message": "Item added successfully to GameScores"
 }
 ```
