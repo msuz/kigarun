@@ -2,7 +2,7 @@
 data "archive_file" "get_game_scores_zip" {
   type        = "zip"
   source_file = "${path.module}/../api/get_game_scores.py"
-  output_path = "${path.module}/../api/get_game_scores.zip"
+  output_path = "${path.module}/archive_file/get_game_scores.zip"
 }
 
 resource "aws_lambda_function" "get_game_scores" {
@@ -11,26 +11,12 @@ resource "aws_lambda_function" "get_game_scores" {
   handler       = "get_game_scores.lambda_handler"
   runtime       = "python3.12"
 
+  # Lambda Layer で定義済みの共通処理
+  layers = [aws_lambda_layer_version.common_layer.arn]
+
   # 更新されたZIPファイルのパス
   filename         = data.archive_file.get_game_scores_zip.output_path
   source_code_hash = data.archive_file.get_game_scores_zip.output_base64sha256
-
-}
-
-# Lambda関数のコードを含むZIPファイルを作成
-resource "null_resource" "lambda_zip_get_game_scores" {
-  triggers = {
-    file_checksum = filemd5("${path.module}/../api/get_game_scores.py")
-  }
-
-  provisioner "local-exec" {
-    command = "cd ${path.module}/../api && zip get_game_scores.zip get_game_scores.py"
-  }
-
-  provisioner "local-exec" {
-    when    = destroy
-    command = "rm -f ${path.module}/../api/get_game_scores.zip"
-  }
 }
 
 # Lambda関数の実行に必要なポリシーをアタッチ
