@@ -37,11 +37,11 @@ resource "aws_api_gateway_resource" "game_scores_resource" {
   path_part   = "game-scores"
 }
 
-# POST メソッドを '/game-scores' エンドポイントに定義
-resource "aws_api_gateway_method" "game_scores_post" {
+# PUT メソッドを '/game-scores' エンドポイントに定義
+resource "aws_api_gateway_method" "game_scores_put" {
   rest_api_id   = aws_api_gateway_rest_api.kigarun_api.id
   resource_id   = aws_api_gateway_resource.game_scores_resource.id
-  http_method   = "POST"
+  http_method   = "PUT"
   authorization = "NONE"
 }
 
@@ -53,15 +53,15 @@ resource "aws_api_gateway_method" "game_scores_get" {
   authorization = "NONE"
 }
 
-# '/game-scores' エンドポイントに対する POST メソッドのLambda統合を設定
-resource "aws_api_gateway_integration" "game_scores_post_integration" {
+# '/game-scores' エンドポイントに対する PUT メソッドのLambda統合を設定
+resource "aws_api_gateway_integration" "game_scores_put_integration" {
   rest_api_id             = aws_api_gateway_rest_api.kigarun_api.id
   resource_id             = aws_api_gateway_resource.game_scores_resource.id
-  http_method             = aws_api_gateway_method.game_scores_post.http_method
+  http_method             = aws_api_gateway_method.game_scores_put.http_method
   type                    = "AWS_PROXY"
   integration_http_method = "POST"
-  uri                     = aws_lambda_function.add_game_scores.invoke_arn
-  depends_on = [aws_lambda_function.add_game_scores] # aws_lambda_function.add_game_scores に依存
+  uri                     = aws_lambda_function.put_game_scores.invoke_arn
+  depends_on = [aws_lambda_function.put_game_scores] # aws_lambda_function.put_game_scores に依存
 }
 
 # '/game-scores' エンドポイントに対する GET メソッドのLambda統合を設定
@@ -81,7 +81,7 @@ resource "aws_api_gateway_deployment" "kigarun_api_deployment" {
   stage_name  = "prod"
   depends_on = [
     aws_api_gateway_integration.message_integration,
-    aws_api_gateway_integration.game_scores_post_integration,
+    aws_api_gateway_integration.game_scores_put_integration,
     aws_api_gateway_integration.game_scores_get_integration,
   ]
 }

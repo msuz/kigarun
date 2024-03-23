@@ -31,6 +31,12 @@ flowchart LR
 % pip install bot3
 ```
 
-## usage
+```
+% cd kigarun/infra && terraform init
+```
 
-TBD
+## deploy
+
+```
+% terraform apply
+```

@@ -1,3 +1,10 @@
+# Lambda 関数のソースコードを自動的に ZIP する
+data "archive_file" "get_message_zip" {
+  type        = "zip"
+  source_file = "${path.module}/../api/get_message.py"
+  output_path = "${path.module}/../api/get_message.zip"
+}
+
 resource "aws_lambda_function" "get_message" {
   function_name = "GetMessage"
   role          = aws_iam_role.api_lambda_execution_role.arn
@@ -5,8 +12,8 @@ resource "aws_lambda_function" "get_message" {
   runtime       = "python3.12"
 
   # 更新されたZIPファイルのパス
-  filename         = "${path.module}/../api/get_message.zip"
-  source_code_hash = filebase64sha256("${path.module}/../api/get_message.zip")
+  filename         = data.archive_file.get_message_zip.output_path
+  source_code_hash = data.archive_file.get_message_zip.output_base64sha256
 }
 
 # Lambda関数のコードを含むZIPファイルを作成

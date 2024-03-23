@@ -1,4 +1,5 @@
 import boto3
+import json
 
 # DynamoDB テーブルの名前を設定
 DYNAMODB_TABLE_NAME = 'GameScores'
@@ -16,4 +17,5 @@ item = {
 
 # データを DynamoDB に書き込む
 response = table.put_item(Item=item)
-print(response)
+pretty_json = json.dumps(response, indent=4)
+print(pretty_json)

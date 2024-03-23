@@ -1,8 +1,8 @@
 import json
 import boto3
 
-# DynamoDB クライアントを初期化（グローバルスコープではなく関数内で初期化するように変更）
-def get_dynamodb_table(table_name):
+# DynamoDB クライアントを初期化
+def get_dynamodb_table(table_name='GameScores'):
     dynamodb = boto3.resource('dynamodb')
     return dynamodb.Table(table_name)
 
@@ -23,7 +23,7 @@ def validate_input(body):
     return True, body
 
 def lambda_handler(event, context):
-    table = get_dynamodb_table('GameScores')
+    table = get_dynamodb_table()
     
     try:
         body = json.loads(event['body'])

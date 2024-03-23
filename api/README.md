@@ -51,7 +51,7 @@ echo ${KIGARUN_API}
 ```
 
 ```
-% curl -s -X POST ${KIGARUN_API}/game-scores \
+% curl -s -X PUT ${KIGARUN_API}/game-scores \
   -H "Content-Type: application/json" \
   -d '{
     "UserId": "user123",
@@ -59,8 +59,52 @@ echo ${KIGARUN_API}
     "TopScore": 9999
   }' \
   | jq .
-
 {
   "message": "Item added successfully to GameScores"
 }
+
+% curl -s -X PUT ${KIGARUN_API}/game-scores \
+  -H "Content-Type: application/json" \
+  -d '{
+    "UserId": "user123",
+    "GameTitle": "Pac Man",
+    "TopScore": 7777
+  }' \
+  | jq .
+{
+  "message": "Item added successfully to GameScores"
+}
+
+% curl -s -X PUT ${KIGARUN_API}/game-scores \
+  -H "Content-Type: application/json" \
+  -d '{
+    "UserId": "user888",
+    "GameTitle": "Space Invaders",
+    "TopScore": 8888
+  }' \
+  | jq .
+{
+  "message": "Item added successfully to GameScores"
+}
+```
+
+```
+% curl -s -X GET "${KIGARUN_API}/game-scores" | jq .
+[
+  {
+    "UserId": "user123",
+    "GameTitle": "Pac Man",
+    "TopScore": 7777
+  },
+  {
+    "UserId": "user123",
+    "GameTitle": "Space Invaders",
+    "TopScore": 9999
+  },
+  {
+    "UserId": "user888",
+    "GameTitle": "Space Invaders",
+    "TopScore": 8888
+  }
+]
 ```

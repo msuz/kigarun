@@ -1,3 +1,10 @@
+# Lambda 関数のソースコードを自動的に ZIP する
+data "archive_file" "get_game_scores_zip" {
+  type        = "zip"
+  source_file = "${path.module}/../api/get_game_scores.py"
+  output_path = "${path.module}/../api/get_game_scores.zip"
+}
+
 resource "aws_lambda_function" "get_game_scores" {
   function_name = "GetGameScores"
   role          = aws_iam_role.api_lambda_execution_role.arn
@@ -5,8 +12,9 @@ resource "aws_lambda_function" "get_game_scores" {
   runtime       = "python3.12"
 
   # 更新されたZIPファイルのパス
-  filename         = "${path.module}/../api/get_game_scores.zip"
-  source_code_hash = filebase64sha256("${path.module}/../api/get_game_scores.zip")
+  filename         = data.archive_file.get_game_scores_zip.output_path
+  source_code_hash = data.archive_file.get_game_scores_zip.output_base64sha256
+
 }
 
 # Lambda関数のコードを含むZIPファイルを作成
