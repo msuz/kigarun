@@ -3,13 +3,13 @@ import sys
 import os
 import json
 
-# テスト対象のLambda関数があるディレクトリ（一つ上のディレクトリ）をsys.pathに追加
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+# テスト対象のLambda Layerがあるディレクトリをsys.pathに追加
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../libs/python')))
 
-from add_game_scores import validate_input
+from common import validate_input
 
 # ここではバリデーションチェックの関数のみをテストする
-# DynamoDBとの結合が必要となる部分対象外
+# DynamoDBとの結合が必要となる部分は対象外
 
 class TestLambdaFunction(unittest.TestCase):
     def test_validate_input_success(self):
