@@ -50,6 +50,15 @@ echo ${KIGARUN_API}
 }
 ```
 
+CORS
+
+```
+% curl -s -i -X GET "${KIGARUN_API}/message" | grep access-control-allow
+access-control-allow-origin: *
+access-control-allow-headers: *
+access-control-allow-methods: GET
+```
+
 ```
 % curl -s -X PUT ${KIGARUN_API}/game-scores \
   -H "Content-Type: application/json" \
